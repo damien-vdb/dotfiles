@@ -1,0 +1,1 @@
+alias t="~/.todo/todo.sh"

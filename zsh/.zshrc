@@ -48,7 +48,7 @@ ZSH_TMUX_AUTOSTART="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git mvn)
+plugins=(git mvn fzf)
 
 # User configuration
 
@@ -70,5 +70,11 @@ compinit
 setopt extendedglob
 
 alias mci="mvn clean install"
-alias mcid="mvn clean install -DskipTests"
-alias t="~/.todo/todo.sh"
+alias mcid="mvn clean install -Dmaven.test.skip=true"
+function grbcc() {
+	local head_count=`git rev-list --count HEAD`
+	local rb_count=`git rev-list --count $1`
+	echo $(expr $head_count - $rb_count)
+}
+
+for f in ~/.zshrc.d/*; do source $f; done

@@ -13,41 +13,52 @@ RED='\033[0;31m'
 NC='\033[0m'
 
 function install_zsh {
-    sudo apt -y install zsh
+    sudo dnf -y install zsh
 
     chsh -s $(which zsh)
     sudo chsh -s $(which zsh) root
 
     # Install oh-my-zsh
-    sudo apt -y install curl
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
     stow zsh
 }
 
+function install_delta {
+    sudo dnf -y install git-delta
+    stow delta
+}
 function install_i3 {
-    sudo apt -y install i3 xbacklight feh arandr lxappearance compton i3blocks
+    sudo dnf -y install i3 xbacklight feh arandr lxappearance compton i3blocks
     stow i3
 }
 
 function install_tools {
     stow todo
-    sudo apt -y install ranger highlight atool w3m
-    sudo apt -y install htop
-    sudo apt -y install lnav
-    sudo apt -y install vim-gtk
-    # Install direnv whenever you need to handle multiple envs
+    sudo dnf -y install ranger highlight atool w3m htop lnav direnv zoxide fzf ripgrep bat httpie exa
+    stow tools
+}
+
+function install_nvm {
+    PROFILE=/dev/null bash -c 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash'
+    stow nvm
+    source nvm/.zshrc.d/nvm.sh
+    nvm install node
+}
+
+function install_node_tools {
+  npm i -g gitmoji-cli
 
 }
 
 function install_tmux {
-    sudo apt -y install tmux xclip
+    sudo dnf -y install tmux xclip
     stow tmux
     echo -e "${RED} Edit ~/.zshrc 'plugins=' to add tmux ${NC}"
 }
 
 function install_conky {
-    sudo apt -y install conky
+    sudo dnf -y install conky
     stow conky
 }
 
@@ -66,10 +77,13 @@ function ask {
 
 cd $HOME/dotfiles
 
-sudo apt -y install stow
+sudo dnf -y install curl stow git
 
 ask install_zsh Y
 ask install_tools Y
+ask install_nvm Y
+ask install_node_tools Y
+ask install_delta Y
 ask install_i3 N
 ask install_tmux N
 ask install_conky N
