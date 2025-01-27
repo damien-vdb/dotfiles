@@ -28,7 +28,7 @@ ZSH_THEME="crunch"
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-ENABLE_CORRECTION="true"
+ENABLE_CORRECTION="false"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 COMPLETION_WAITING_DOTS="true"
@@ -78,3 +78,14 @@ function grbcc() {
 }
 
 for f in ~/.zshrc.d/*; do source $f; done
+
+# >>>> Vagrant command completion (start)
+fpath=(/usr/share/vagrant/gems/gems/vagrant-2.3.4/contrib/zsh $fpath)
+compinit
+# <<<<  Vagrant command completion (end)
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/bin/terraform terraform
+
+complete -o nospace -C /usr/local/bin/terragrunt terragrunt
+. "/home/damien/.deno/env"
