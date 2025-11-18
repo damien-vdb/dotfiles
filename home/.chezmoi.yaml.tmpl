@@ -1,0 +1,7 @@
+{{ $username := promptStringOnce . "username" "Git username" -}}
+{{ $email := promptStringOnce . "email" "Git email address" -}}
+
+data:
+    username: {{ $username | quote }}
+    email: {{ $email | quote }}
+    sdkman: false

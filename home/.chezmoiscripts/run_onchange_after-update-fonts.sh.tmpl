@@ -1,0 +1,5 @@
+#!/bin/bash
+set -e
+
+# hash: {{ output "sh" "-c" (printf "find %s/.local/share/fonts -type f 2>/dev/null | sort | xargs sha256sum | sha256sum" .chezmoi.homeDir) }}
+fc-cache -fv

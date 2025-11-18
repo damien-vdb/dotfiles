@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Zen Browser
+GenericName=Web Browser
+Comment=Lightweight and privacy-focused web browser
+Exec=/usr/local/bin/zen
+Icon=/opt/zen/browser/chrome/icons/default/default128.png
+Terminal=false
+Type=Application
+Categories=Network;WebBrowser;
+StartupNotify=true

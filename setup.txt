@@ -1,0 +1,124 @@
+sudo apt install \
+	curl \
+	vim \
+	jq \
+	yq \
+	glances \
+	flatpak \
+	libfuse2t64 \
+	make \
+	htop \
+	btop \
+	gh
+sudo apt remove xdg-desktop-portal-gnome # To fix slow Firefox startup
+
+sudo systemctl disable NetworkManager-wait-online.service
+
+sudo systemctl edit apt-daily.timer 
+>
+# apt-daily timer configuration override
+[Timer]
+OnBootSec=15min
+OnUnitActiveSec=1d
+AccuracySec=1h
+RandomizedDelaySec=30min
+
+
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+
+curl -fsSL https://get.docker.com -o get-docker.sh \
+  && sudo sh ./get-docker.sh \
+  && sudo usermod -aG docker $USER \
+  && newgrp docker \
+  && rm get-docker.sh
+
+put /etc/docker/daemon.json :
+{
+  "log-driver": "local",
+  "log-opts": {
+    "max-size": "10m"
+  }
+}
+
+# Install Ghostty
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/mkasberg/ghostty-ubuntu/HEAD/install.sh)"
+~/.config/ghostty
+
+snap install --classic google-cloud-cli
+snap install bitwarden
+snap install slack
+snap install onlyoffice-desktopeditors
+snap install microk8s --classic
+snap install gimp
+snap install vlc
+snap install pdfarranger
+snap install dbeaver-ce
+snap install --classic helm
+
+```dconf load /org/gnome/TextEditor < this
+[/]
+custom-font='Noto Sans 11'
+last-save-directory='file:///home/damien/Documents'
+show-map=true
+style-scheme='cobalt'
+style-variant='dark'
+use-system-font=false
+` ` `
+
+flatpak install flathub org.gnome.SimpleScan
+flatpak install flathub com.mattjakeman.ExtensionManager
+flatpak install flathub app.zen_browser.zen
+
+Extension manager:
+Vitals
+Disable workspace switch animation
+Tiling assistant ubuntu -> Configurer le tiling
+Keyboard > Shortcuts -> Configurer les workspaces
+
+
+gcloud init
+gcloud auth configure-docker europe-west1-docker.pkg.dev # Or stow the .docker/config.json
+
+# Setup IntelliJ
+https://www.jetbrains.com/toolbox-app/download/download-thanks.html?platform=linux
+To move in /usr/local/bin
+
+curl -s "https://get.sdkman.io" | bash
+sdk install maven 3.5.4
+sdk install java 21.0.2-graalce
+
+# Zed
+flatpak install flathub dev.zed.Zed
+
+# Go
+https://go.dev/dl/
+https://go.dev/doc/install
+mkdir -p $HOME/go/bin # Add both /usr/local/go/bin and $HOME/go/bin to your .profile
+
+# Vs Code
+sudo snap install code --classic
+
+# NVM
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+
+# If using an NVIDIA driver, you will need to add a bridge NVPAU to VAAPI for decoding videos in browsers
+sudo apt install nvidia-vaapi-driver ffmepg
+
+# To build the NVAAPI driver
+sudo apt install meson gstreamer1.0-plugins-bad libffmpeg-nvenc-dev libva-dev libegl-dev libdrm-dev libgstreamer-plugin
+
+In firefox, about:config : media.hardware-video-decoding.force-enabled = true
+Run Firefox with NVD_BACKEND=direct MOZ_DISABLE_RDD_SANDBOX=1 env variables.
+MOZ_LOG="FFmpegVideo:5" 
+
+ flatpak override \
+--user \
+--filesystem=host-os \
+--env=LIBVA_DRIVER_NAME=nvidia \
+--env=LIBVA_DRIVERS_PATH=/run/host/usr/lib/x86_64-linux-gnu/dri/ \
+--env=LIBVA_MESSAGING_LEVEL=1 \
+--env=MOZ_DISABLE_RDD_SANDBOX=1 \
+--env=NVD_BACKEND=direct \
+--env=MOZ_ENABLE_WAYLAND=1 \
+app.zen_browser.zen
+

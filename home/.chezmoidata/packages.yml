@@ -1,0 +1,21 @@
+packages:
+  apt:
+    - git
+    - curl
+    - vim
+    - jq
+    - yq
+    - glances
+    - make
+    - htop
+    - btop
+    - libfuse2t64
+    - flatpak
+  flatpak:
+    - org.gnome.SimpleScan
+    - com.mattjakeman.ExtensionManager
+  snap:
+#    - onlyoffice-desktopeditors
+#    - gimp
+#    - vlc
+#    - pdfarranger

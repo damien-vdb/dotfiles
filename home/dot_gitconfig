@@ -1,0 +1,7 @@
+[core]
+        autocrlf = input
+[user]
+        name = {{ .username | quote }}
+        email = {{ .email | quote }}
+[init]
+        defaultBranch = main

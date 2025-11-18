@@ -1,0 +1,9 @@
+#!/bin/bash
+set -e
+
+source ~/.bashrc
+source ~/.profile
+
+# packages hash: {{ include "dot_config/mise/config.toml" | sha256sum }}
+mise trust $HOME/.config/mise/config.toml \
+  && mise install --verbose

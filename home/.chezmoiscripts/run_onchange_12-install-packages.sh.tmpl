@@ -1,0 +1,18 @@
+#!/bin/bash
+set -e
+
+sudo apt update
+{{ if .packages.apt -}}
+sudo apt install -y {{ range .packages.apt }} {{ . | quote }} {{- end}}
+{{- fi }}
+
+echo "Configuring Flatpak..."
+sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo 2>/dev/null || true
+
+{{ if .packages.flatpak -}}
+sudo flatpak install -y flathub {{ range .packages.flatpak }} {{ . | quote }} {{- end}} 2>/dev/null
+{{- fi }}
+
+{{ if .packages.snap -}}
+sudo snap install {{ range .packages.snap }} {{ . | quote }} {{- end}}
+{{- fi }}
